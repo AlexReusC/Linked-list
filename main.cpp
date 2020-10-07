@@ -1,3 +1,12 @@
+/*
+Alejandro Castro Reus-A01731065
+Fecha de entrega: 07/10/2020
+
+Programa que crea una lista enlazada lineal y permite aniadir nuevos nodos
+al principio y al final, eliminar los nodos ya existentes al inicio al final.
+Tambien permite imprimirlos y borra la lista al terminar el programa
+*/
+
 #include <iostream>
 using namespace std;
 
@@ -7,6 +16,9 @@ struct Node
   struct Node* next;
 };
 
+//Inserta un nodo al inicio, recibe un pointer de pointer nodo y un entero
+//no regresa nada
+//O(1)
 void inserta_al_inicio(Node **h, int a){
   Node* tmp = new Node;
   tmp->data = a;
@@ -14,6 +26,9 @@ void inserta_al_inicio(Node **h, int a){
   (*h) = tmp;
 }
 
+//Inserta un nodo al final, recibe un pointer de pointer nodo y un entero
+//no regresa nada
+//O(n)
 void inserta_al_final(Node **h, int a){
   Node* tmp = new Node;
   tmp->data = a;
@@ -31,21 +46,36 @@ void inserta_al_final(Node **h, int a){
   pos->next = tmp;
 }
 
+//Elimina un nodo al inicio, recibe un pointer de pointer nodo
+//no regresa nada
+//O(1)
 void elimina_al_inicio(Node **h){
   if(*h == NULL){
+    cout << "ERROR" << endl;
+    return;
+  }
+  if((*h)->next == NULL){
+    delete(*h);
+    *h = NULL;
     return;
   }
   Node *tmp = *h;
   *h = tmp->next;
   delete(tmp);
+
 }
 
+//Elimina un nodo al final, recibe un pointer de pointer nodo
+//no regresa nada
+//O(n)
 void elimina_al_final(Node **h){
   if(*h == NULL){
+    cout << "ERROR" << endl;
     return;
   }
   if((*h)->next == NULL){
     delete(*h);
+    *h = NULL;
     return;
   }
   Node *pos = *h;
@@ -56,13 +86,24 @@ void elimina_al_final(Node **h){
   pos->next = NULL;
 }
 
+//Imprime los nodos, recibe un pointer de Node y no regresa nada
+//O(n)
 void imprime(Node *h){
   Node *temp = h;
   while(temp != NULL){
-    cout<<temp->data << " ";
+    cout<<temp->data << endl;
     temp = temp->next;
   }
-  cout << endl;
+}
+
+void deleteStuff(Node *h){
+  Node *curr = h;
+  Node *prev = h;
+  while(curr != NULL){
+    curr = curr->next;
+    delete(prev);
+    prev = curr;
+  }
 }
 
 int main(){
@@ -89,10 +130,10 @@ int main(){
         imprime(head);
         break;
       case 0:
+        deleteStuff(head);
         return 0;
         break;
     }
   }
-
   return 0;
 }
